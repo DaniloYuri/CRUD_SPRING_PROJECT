@@ -3,10 +3,12 @@ package com.cordeiro.springProject.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.cordeiro.springProject.domain.Categoria;
 import com.cordeiro.springProject.repositorys.CategoriaRepository;
+import com.cordeiro.springProject.services.exceptions.DataIntegrityException;
 import com.cordeiro.springProject.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -31,5 +33,14 @@ public class CategoriaService {
 		find(obj.getId());
 		return repo.save(obj);
 		
+	}
+	
+	public void delete(Integer id) {
+		find(id);
+		try {
+		repo.deleteById(id);
+		}catch(DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possivel excluir uma categoria que possui produtos ");
+		}
 	}
 }
