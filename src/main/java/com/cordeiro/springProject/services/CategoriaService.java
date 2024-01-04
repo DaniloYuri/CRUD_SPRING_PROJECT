@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.cordeiro.springProject.domain.Categoria;
+import com.cordeiro.springProject.dto.CategoriaDTO;
 import com.cordeiro.springProject.repositorys.CategoriaRepository;
 import com.cordeiro.springProject.services.exceptions.DataIntegrityException;
 import com.cordeiro.springProject.services.exceptions.ObjectNotFoundException;
@@ -49,4 +50,10 @@ public class CategoriaService {
 	public List<Categoria> findAll(){
 		return repo.findAll();
 	}
-}
+	
+	public Categoria fromDTO(CategoriaDTO objDto) {
+
+		return new Categoria(objDto.getId(), objDto.getName());
+	}
+	}
+	
