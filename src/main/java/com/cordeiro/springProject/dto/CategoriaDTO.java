@@ -1,6 +1,7 @@
 package com.cordeiro.springProject.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -16,6 +17,7 @@ public class CategoriaDTO implements Serializable {
 	@NotEmpty(message="Preenchimento Obrigatorio ")
 	@Length(min=5, max=80, message="O tamanho deve ser entre 5 e 80 caracteres" )
 	private String name ;
+	private List<Categoria> listDto ;
 	
 	public CategoriaDTO() {
 		
@@ -40,6 +42,12 @@ public class CategoriaDTO implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	public List<Categoria> getListDto() {
+		return listDto;
+	}
+	public void setListDto(List<Categoria> listDto) {
+		this.listDto = listDto;
 	}
 	
 	

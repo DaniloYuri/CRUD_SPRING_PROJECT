@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.cordeiro.springProject.domain.Categoria;
 import com.cordeiro.springProject.domain.Cliente;
+import com.cordeiro.springProject.dto.ClienteDTO;
 import com.cordeiro.springProject.repositorys.ClienteRepository;
 import com.cordeiro.springProject.services.exceptions.DataIntegrityException;
 import com.cordeiro.springProject.services.exceptions.ObjectNotFoundException;
@@ -34,23 +35,34 @@ public class ClienteService {
 	}
 
 	public Cliente update( Cliente obj) {
-		find(obj.getId());
-		return repo.save(obj);
+		
+		Cliente newObj = find(obj.getId());
+		updateData(newObj,obj);
+		return repo.save(newObj);
 	}
 
 	public void delete(Integer id) {
 		find(id);
 		try {
 			repo.deleteById(id);
-
 		} catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Não é possivel excluir uma categoria que possui produtos");
-
+			throw new DataIntegrityException("Não é possivel excluir porque há entidades relacionadas ");
 		}
 
 	}
 
+	
+
 	public List<Cliente> findAll() {
 		return repo.findAll();
+	}
+	
+	public Cliente FromDTO(ClienteDTO objDto) {
+		return new Cliente(objDto.getId(),objDto.getName(),objDto.getEmail(),null, null);
+	}
+	
+	private void updateData(Cliente newObj, Cliente obj) {
+		newObj.setName(obj.getName());
+		newObj.setEmail(obj.getEmail());
 	}
 }

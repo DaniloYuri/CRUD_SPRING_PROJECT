@@ -2,6 +2,7 @@ package com.cordeiro.springProject.resources;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.cordeiro.springProject.domain.Cliente;
+import com.cordeiro.springProject.dto.ClienteDTO;
 import com.cordeiro.springProject.services.ClienteService;
 
 @RestController
@@ -46,15 +48,17 @@ public class ClienteResource {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@DeleteMapping("Id")
-	public ResponseEntity<Void> delte (@PathVariable Integer id ){
+	@DeleteMapping("{id}")
+	public ResponseEntity<Void> delete(@PathVariable Integer id){
 		service.delete(id);
 		return ResponseEntity.noContent().build();
+		
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Cliente>> findAll(){
+	public ResponseEntity<List<ClienteDTO>> findAll(){
 		List<Cliente> list = service.findAll();
-		return ResponseEntity.ok().body(list);
+		List<ClienteDTO> listDto = list.stream().map(obj -> new ClienteDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDto);
 	}
 }
