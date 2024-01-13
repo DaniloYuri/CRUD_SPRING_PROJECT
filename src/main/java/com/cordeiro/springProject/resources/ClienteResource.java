@@ -18,7 +18,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.cordeiro.springProject.domain.Cliente;
 import com.cordeiro.springProject.dto.ClienteDTO;
+import com.cordeiro.springProject.dto.ClienteNewDTO;
 import com.cordeiro.springProject.services.ClienteService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/clientes")
@@ -28,19 +31,19 @@ public class ClienteResource {
 	@Autowired 
 	private ClienteService service;
 	@GetMapping("{id}")
-	public ResponseEntity<?> find (@PathVariable Integer id){
+	public ResponseEntity<Cliente> find (@PathVariable Integer id){
 		Cliente obj = service.find(id);
-		
 		return ResponseEntity.ok().body(obj);
 		
 	}
 	@PostMapping
-	public ResponseEntity<Void> insert(@RequestBody Cliente obj) {
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto){
+		Cliente obj = service.fromDTO(objDto);
 		obj = service.insert(obj);
-		URI uri =ServletUriComponentsBuilder.fromCurrentRequest().path("/id").buildAndExpand(obj.getId()).toUri();
-		return ResponseEntity.created(uri).build();
-		}
-
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).build();		
+	}
+	
 	@PutMapping("{id}")
 	public ResponseEntity<Void> update( @RequestBody Cliente obj, @PathVariable Integer id){
 		obj.setId(id);

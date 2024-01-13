@@ -5,12 +5,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Entity
 public class Endereco implements Serializable  {
@@ -28,12 +23,13 @@ public class Endereco implements Serializable  {
 	private String complemento;
 	private String bairro;
 	private String cep;
-	
+
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
 	
+	@JsonIgnore
 	@ManyToOne 
 	@JoinColumn(name="cidade_id")
 	private Cidade cidade ;
@@ -42,7 +38,7 @@ public class Endereco implements Serializable  {
 }
 
 	public Endereco(Integer id, String logradouro, String numero, String complemento, String bairro, String cep,
-			Cliente cliente, Cidade cidade) {
+			Cliente cliente,Cidade cid) {
 		super();
 		this.id = id;
 		this.logradouro = logradouro;
@@ -51,7 +47,7 @@ public class Endereco implements Serializable  {
 		this.bairro = bairro;
 		this.cep = cep;
 		this.cliente = cliente;
-		this.cidade = cidade;
+		this.cidade = cid;
 	}
 	public Cidade getCidade() {
 		return cidade ;
