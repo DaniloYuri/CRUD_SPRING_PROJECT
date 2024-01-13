@@ -3,24 +3,52 @@ package com.cordeiro.springProject.dto;
 import java.io.Serial;
 import java.io.Serializable;
 
+import org.hibernate.validator.constraints.Length;
+
+import com.cordeiro.springProject.services.validation.ClienteInsert;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+
+@ClienteInsert
 public class ClienteNewDTO implements Serializable {
 	/**
 	 * 
 	 */
 	@Serial
 	private static final long serialVersionUID = 1L;
+	
+	@NotEmpty(message="Preenchimento Obrigatorio ")
+	@Length(min=5, max=80, message="O tamanho deve ser entre 5 e 80 caracteres")
 	private String name;
+	
+	@NotEmpty(message="Preenchimento Obrigatorio ")
+	@Email(message="Email Invalido")
 	private String email;
+	
+	
+	@NotEmpty(message="Preenchimento Obrigatorio ")
 	private String cpfOuCnpj;
+	
 	private Integer tipo;
 	
+	@NotEmpty(message="Preenchimento Obrigatorio ")
 	private String logradouro;
+	
+	@NotEmpty(message="Preenchimento Obrigatorio ")
 	private String numero;
+	
 	private String complemento;
+
+	@NotEmpty(message="Preenchimento Obrigatorio ")
 	private String bairro;
+	
+	@NotEmpty(message="Preenchimento Obrigatorio ")
 	private String cep;
 	
+	@NotEmpty(message="Preenchimento Obrigatorio ")
 	private String tel1;
+	
 	private String tel2;
 	private String tel3;
 	
